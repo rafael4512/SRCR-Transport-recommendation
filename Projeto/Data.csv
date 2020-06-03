@@ -334,12 +334,12 @@
 348;-105643.02;-96045.85;Bom;Aberto dos Lados;No;Vimeca;11;442;Rua Domingos Fernandes;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 18;-105326.04;-95824.84;Bom;Fechado dos Lados;No;Vimeca;11;443;Rua Doutor Agostinho de Campos;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 340;-106068.28;-96585.41;Bom;Sem Abrigo;No;Vimeca;11;477;Rua Luz Soriano;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
-337;-105713.9;-96309.68;Bom;Aberto dos Lados;No;Vimeca;11;1251;Rua Pedro ilvares Cabral;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
+337;-105713.9;-96309.68;Bom;Aberto dos Lados;No;Vimeca;11;1251;Rua Pedro Alvares Cabral;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 371;-105299.61;-95995.91;Bom;Sem Abrigo;No;Vimeca;11,13;431;Rua de Ceuta;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 19;-105294.01;-95844.02;Bom;Sem Abrigo;No;Vimeca;11,13;431;Rua de Ceuta;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 16;-105373.94;-95734.72;Bom;Sem Abrigo;No;Vimeca;11,13;431;Rua de Ceuta;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 492;-106048.05;-96569.91;Bom;Sem Abrigo;No;Vimeca;11,13;477;Rua Luz Soriano;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
-338;-105719.88;-96325.39;Bom;Aberto dos Lados;No;Vimeca;11,13;1251;Rua Pedro ilvares Cabral;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
+338;-105719.88;-96325.39;Bom;Aberto dos Lados;No;Vimeca;11,13;1251;Rua Pedro Alvares Cabral;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 875;-106837.97523209226;-101312.81293258877;Bom;Fechado dos Lados;Yes;LT;111;51;Rua A Gazeta D Oeiras;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 874;-106828.30282704088;-101321.74130648235;Bom;Fechado dos Lados;Yes;LT;111;51;Rua A Gazeta D Oeiras;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 549;-107045.27;-101540.24;Bom;Fechado dos Lados;Yes;LT;111;51;Rua A Gazeta D Oeiras;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
@@ -377,7 +377,6 @@
 925;-107625.08;-103117.77;Bom;Fechado dos Lados;No;LT;111,122;1431;Avenida Salvador Allende;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 872;-106368.26;-101705.73;Bom;Sem Abrigo;Yes;LT;111,158;587;Avenida Antonio Bernardo Cabral de Macedo;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 391;-106420.98;-101611.2;Bom;Fechado dos Lados;Yes;LT;111,158;587;Avenida Antonio Bernardo Cabral de Macedo;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
-705;-101884.93;-101826.65;Bom;Fechado dos Lados;Yes;LT;112;1667;Avenida Professor Dr. Cavaco Silva;Porto Salvo
 704;-101856.51;-101822.02;Bom;Fechado dos Lados;Yes;LT;112;1667;Avenida Professor Dr. Cavaco Silva;Porto Salvo
 272;-105722.56;-102581.2;Bom;Sem Abrigo;No;LT;112;1680;Rua Encosta das Lagoas;Porto Salvo
 271;-105742.74;-102575.8;Bom;Fechado dos Lados;No;LT;112;1680;Rua Encosta das Lagoas;Porto Salvo
@@ -422,8 +421,8 @@
 954;-104075.89;-95771.82;Bom;Fechado dos Lados;Yes;LT;114;1116;Avenida Professor Dr. Reinaldo dos Santos;Carnaxide e Queijas
 947;-103879.91;-95751.23;Bom;Fechado dos Lados;No;LT;114;1116;Avenida Professor Dr. Reinaldo dos Santos;Carnaxide e Queijas
 952;-104058.98;-95839.14;Bom;Fechado dos Lados;Yes;LT;114;1137;Rua Tenente-General Zeferino Sequeira;Carnaxide e Queijas
-846;-105713.9;-96309.68;Bom;Aberto dos Lados;No;LT;114;1251;Rua Pedro ilvares Cabral;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
-845;-105719.88;-96325.39;Bom;Aberto dos Lados;No;LT;114;1251;Rua Pedro ilvares Cabral;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
+846;-105713.9;-96309.68;Bom;Aberto dos Lados;No;LT;114;1251;Rua Pedro Alvares Cabral;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
+845;-105719.88;-96325.39;Bom;Aberto dos Lados;No;LT;114;1251;Rua Pedro Alvares Cabral;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 367;-105679.92;-96534.6;Bom;Fechado dos Lados;Yes;LT;114;1279;Avenida Tomas Ribeiro;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 330;-105744.42;-96527.5;Bom;Fechado dos Lados;Yes;LT;114;1279;Avenida Tomas Ribeiro;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 863;-105210.86;-96382.34;Bom;Fechado dos Lados;Yes;LT;114;1283;Avenida Vinte e Cinco de Abril de 1974;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
@@ -646,7 +645,6 @@
 303;-105819.47;-99953.55;Bom;Sem Abrigo;No;LT;158;858;Rua Calvet de Magalhaes;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 433;-106203.75;-99942.88;Bom;Aberto dos Lados;No;LT;158;863;Rua dos Cedros;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 884;-106100.40608156208;-99324.93367751369;Bom;Sem Abrigo;No;LT;158;871;Rua Dom Francisco de Almeida;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
-298;;;Bom;Aberto dos Lados;No;LT;158;890;Rua Fernando Vaz;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 297;-105936.26;-99903.99;Bom;Aberto dos Lados;No;LT;158;890;Rua Fernando Vaz;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 410;-106940.98;-99253.35;Bom;Fechado dos Lados;No;LT;158;898;Estrada da Gibalta;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 275;-106970.5;-99227.97;Bom;Fechado dos Lados;Yes;LT;158;898;Estrada da Gibalta;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
@@ -718,8 +716,6 @@
 100;-102002.37;-102008.48;Bom;Fechado dos Lados;No;Vimeca;23;1668;Avenida Engenheiro Valente de Oliveira;Porto Salvo
 720;-103014.4;-101951.36;Bom;Fechado dos Lados;No;Vimeca;23;1670;Avenida Domingos Vandelli;Porto Salvo
 131;-102556.6;-102172.39;Bom;Sem Abrigo;No;Vimeca;23;1671;Rua Professor Dr. Jose Pinto Peixoto;Porto Salvo
-393;-106368.26;-101705.73;Bom;Sem Abrigo;Yes;Vimeca;30;587;Avenida Antonio Bernardo Cabral de Macedo;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
-923;-107625.08;-103117.77;Bom;Fechado dos Lados;No;Vimeca;30;1431;Avenida Salvador Allende;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 921;-107096.82640151314;-103853.54646127204;Bom;Sem Abrigo;No;Scotturb;467;1404;Rua Norton de Matos;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 523;-107058.08;-103860.82;Bom;Sem Abrigo;No;Scotturb;467;1404;Rua Norton de Matos;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
 513;-107854.63;-102915.29;Bom;Fechado dos Lados;Yes;Scotturb;467,468,470,479,485,489;1422;Rua da Quinta Grande;Oeiras e Sao Juliao da Barra, Paço de Arcos e Caxias
@@ -806,4 +802,3 @@
 463;-106886.32;-96345.37;Bom;Sem Abrigo;No;Carris;776;386;Rua Sacadura Cabral;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 8;-106980.35;-95289.3;Bom;Sem Abrigo;No;Carris;776;103;Rua Damiao de Gois;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
 5;-106997.31;-95311.49;Bom;Sem Abrigo;No;Carris;776;103;Rua Damiao de Gois;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
-167;-107073;-95199.03;Bom;Fechado dos Lados;Yes;Carris;98;102;Largo Dom Manuel I;Alges, Linda-a-Velha e Cruz Quebrada-Dafundo
