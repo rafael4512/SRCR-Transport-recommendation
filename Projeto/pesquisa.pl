@@ -84,7 +84,8 @@ insere(X,L,[X|L]).
 
 
 
-% findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),L),encontraCaminho(L,)
+
+%--------------------------------- 
 
 encontraCaminho(_,_,paragem(Id1,_,_,_,_,_,_,_,_,_,_),paragem(Id1,_,_,_,_,_,_,_,_,_,_),_,R). % cheguei ao destino.
 
@@ -125,10 +126,55 @@ encontraCaminho(L_adj,TodasPar,
 	%print(P_Adj_Final),print('\n'),
 	encontraCaminho(L_adj,TodasPar,P_Adj_Final,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),Pf,XS).
 
-%paragem(44,-104458.52,-94926.22,'Bom','Fechado dos Lados','Yes','Vimeca','01,13,15',1134,'Largo Sete de Junho de 1759','Carnaxide e Queijas').
-%teste1(X):- pp(44,paragem(162,-102962.16,-98672.14,'Bom','Sem Abrigo','No','Vimeca','02,06,13',830,'Estrada Militar','Barcarena'),[13,15,1],X).
 
-%pp(Par_ori,Par_Dest,Carr,P_Adj_Final):-bagof(_,grafo(L1,L),[L|R]),map2([],L,Par_ori,Par_Dest,Carr,Res),best_Choice([],Res,Par_Dest,FINAL).
+
+
+
+%--------------------------------- 
+%Print das paragens!
+encontraCaminho2(_,_,paragem(Id1,_,_,_,_,_,_,_,_,_,_),paragem(Id1,_,_,_,_,_,_,_,_,_,_),_,R). % cheguei ao destino.
+
+
+
+encontraCaminho2(L_adj,TodasPar, 
+				paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),
+				paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),P,[IDf|XS]):-
+	obterCarr(Id1,TodasPar,C_ori),obterCarr(Id2,TodasPar,C_des), % Obtem as carreiras.
+	pri_Comum(C_ori,C_des,NewC), 						     % Existe uma carreira em comum.
+	NewC \= nao,
+	mudarCarreira(NewC,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),Prox2),
+	getAdj(L_adj,Id1,NewC,Par_ant,Par_seg), 					 % Obtem as paragens adjacentes.
+	upOrDown(L_adj,Id1,Id2,NewC,A,B),
+	( A<B -> (getId(Par_seg,IDf),\+ memberchk(IDf,P) ,print(Par_seg),print('\n'), insere(IDf,P,Pf),encontraCaminho2(L_adj,TodasPar,Par_seg,Prox2,Pf,XS))
+	; (getId(Par_ant,IDf),\+ memberchk(IDf,P), print(Par_ant),print('\n'), insere(IDf,P,Pf),encontraCaminho2(L_adj,TodasPar,Par_ant,Prox2,Pf,XS)) ).
+
+
+
+
+
+encontraCaminho2(L_adj,TodasPar, 
+				paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),
+				paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),P,[IDf|XS]):-
+
+	obterCarr(Id1,TodasPar,C_ori),obterCarr(Id2,TodasPar,C_des), % Obtem as carreiras.
+	pri_Comum(C_ori,C_des,nao),									 % Não existem carreiras em comum
+	toList(C_ori,C_ori1),										 % garante que seja uma lista, pois pode ser um inteiro.
+	map2(P,L_adj,Id1,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),C_ori1,Res),
+	best_Choice(P,Res,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),P_Adj_Final),
+	getId(P_Adj_Final,IDf),\+ memberchk(IDf,P),insere(IDf,P,Pf),
+	print(P_Adj_Final),print('\n'),
+	encontraCaminho2(L_adj,TodasPar,P_Adj_Final,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),Pf,XS).
+
+
+
+
+
+
+
+
+%--------------------------------- 
+
+
 
 
 map2(Percorr,L_adj,Par_ori,Par_Dest,[],R). 
@@ -190,7 +236,9 @@ mudarCarreira(NovaC,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operad
 
 getId(paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Id1).
 getCarr(paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Carr1).
-
+getOperadora(paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Operadora1).
+getAbrPub(paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),AbrigoPub1).
+getTipoAbr(paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),TipoAbrigo1).
 
 toList([],[]).
 toList(X,[X]):- integer(X).
@@ -256,23 +304,55 @@ lol(A,B):-bagof(_,grafo(L1,L),[L|R]),
 
 
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Remover do grafo.
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+
+
+% Funcao auxliar para selecionar viagens de  operadoras dadas.
+seleciona_OP_Aux([],L_OP,R).
+seleciona_OP_Aux([viajar(X1,X2)|XS],L_OP,[viajar(X1,X2)|PP]) :- getOperadora(X1,A),getOperadora(X2,B), 
+																memberchk(A,L_OP),memberchk(B,L_OP),	% são membros
+																seleciona_OP_Aux(XS,L_OP,PP).
+seleciona_OP_Aux([viajar(X1,X2)|XS],L_OP,PP) :- seleciona_OP_Aux(XS,L_OP,PP).
 
 
 
 
+% Funcao auxliar para remover viagens de  operadoras dadas.
+excluir_OP([],L_OP,R).
+excluir_OP([viajar(X1,X2)|XS],L_OP,PP) :- getOperadora(X1,A),getOperadora(X2,B),
+									      (memberchk(A,L_OP);memberchk(B,L_OP)),
+									      excluir_OP(XS,L_OP,PP).
+excluir_OP([viajar(X1,X2)|XS],L_OP,[viajar(X1,X2)|PP]) :- excluir_OP(XS,L_OP,PP).
 
 
 
 
+%exclui todas as viagens sem publicidade.
+excluir_ABR_SemPub([],[]).
+excluir_ABR_SemPub([viajar(X1,X2)|XS],Res):- (getAbrPub(X1,'No');getAbrPub(X2,'No')),excluir_ABR_SemPub(XS,Res) .
+excluir_ABR_SemPub([viajar(X1,X2)|XS],[viajar(X1,X2)|Res]):- excluir_ABR_SemPub(XS,Res) .
+
+
+%exclui todas as viagens que não são abrigadas.('Sem Abrigo')
+seleciona_Abrigadas([],[]).
+seleciona_Abrigadas([viajar(X1,X2)|XS],Res):- (getTipoAbr(X1,'Sem Abrigo'); getTipoAbr(X2,'Sem Abrigo')),seleciona_Abrigadas(XS,Res).
+seleciona_Abrigadas([viajar(X1,X2)|XS],[viajar(X1,X2)|Res]):- seleciona_Abrigadas(XS,Res).
 
 
 
 
+delete([], _, []).
+delete([Elem|Tail], Del, Result) :-
+    (   \+ Elem \= Del
+    ->  delete(Tail, Del, Result)
+    ;   Result = [Elem|Rest],
+        delete(Tail, Del, Rest)
+    ).
 
 
-
-
-
+removerViagem(L,V,R):-delete(L,V,R).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Testes
@@ -326,3 +406,13 @@ encontraCaminho(L,Todas,paragem(366,-106021.37,-96684.5,'Bom','Fechado dos Lados
 
 
 
+
+teste_seleciona_OP_Aux(X):-bagof(_,grafo(L1,L),[L|R]),seleciona_OP_Aux(L,['Scotturb'],X).
+
+teste_exclui_OP(X):-bagof(_,grafo(L1,L),[L|R]),excluir_OP(L,['Scotturb'],X).
+
+
+teste_excluir_ABR_SemPub(X):-bagof(_,grafo(L1,L),[L|R]),excluir_ABR_SemPub(L,X).
+
+
+teste_seleciona_Abrigadas(X):-bagof(_,grafo(L1,L),[L|R]),seleciona_Abrigadas(L,X).

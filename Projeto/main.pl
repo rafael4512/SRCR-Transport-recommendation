@@ -44,12 +44,21 @@ calcula_Percurso(O,D):- bagof(_,grafo(L1,L),[L|R]),
 
 
 
-% Selecionar apenas algumas das operadoras de transporte para um determinado percurso;
-
+% Selecionar apenas algumas das operadoras de transporte para um determinado percurso;   %%%%%%%% percurso_seleciona_op(['Vimeca'],183,181).
+percurso_seleciona_op(OPs,O,D):-bagof(_,grafo(L1,L_aux),[L_aux|R]),seleciona_OP_Aux(L_aux,OPs,L),
+				   			 	findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),
+				   						paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+				   				 getParagem(O,Par1),getParagem(D,Par2),
+				   			 	encontraCaminho2(L,Todas,Par1,Par2,[O],Caminho).
 
 
 
 % Excluir um ou mais operadores de transporte para o percurso;
+percurso_exclui_op(OPs,O,D):-bagof(_,grafo(L1,L_aux),[L_aux|R]),excluir_OP(L_aux,OPs,L),
+				   			 findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),
+				   					paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+				   			 getParagem(O,Par1),getParagem(D,Par2),
+				   			 encontraCaminho2(L,Todas,Par1,Par2,[O],Caminho).
 
 
 
@@ -78,14 +87,22 @@ identificar_carr_aux([P|PS]):-findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,Abr
 
 
 % Escolher o percurso que passe apenas por abrigos com publicidade;
-
+percurso_pub(O,D):-bagof(_,grafo(L1,L_aux),[L_aux|R]),excluir_ABR_SemPub(L_aux,L),
+				   findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),
+				   		paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+				   getParagem(O,Par1),getParagem(D,Par2),
+				   encontraCaminho2(L,Todas,Par1,Par2,[O],Caminho).
 
 
 
 
 
 % Escolher o percurso que passe apenas por paragens abrigadas;
-
+percurso_abrigado(O,D):-bagof(_,grafo(L1,L_aux),[L_aux|R]),seleciona_Abrigadas(L_aux,L),
+						findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),
+								paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+						getParagem(O,Par1),getParagem(D,Par2),
+						encontraCaminho2(L,Todas,Par1,Par2,[O],Caminho).
 
 
 
