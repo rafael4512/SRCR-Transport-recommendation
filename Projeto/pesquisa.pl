@@ -99,10 +99,14 @@ encontraCaminho(L_adj,TodasPar,
 	NewC \= nao,
 	mudarCarreira(NewC,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),Prox2),
 	getAdj(L_adj,Id1,NewC,Par_ant,Par_seg), 					 % Obtem as paragens adjacentes.
-	heur1(P,Par_ant,Par_seg,Prox2,P_Adj_Final),					 % Função heuristica.
-	getId(P_Adj_Final,IDf),insere(IDf,P,Pf),					 % Obtem e Insere o ID da paragem ,nas listas
-	print(P_Adj_Final),print('\n'),
-	encontraCaminho(L_adj,TodasPar,P_Adj_Final,Prox2,Pf,XS).
+	upOrDown(L_adj,Id1,Id2,NewC,A,B),
+								% o A,B são posicoes da lista de adj. 
+	( A<B -> (getId(Par_seg,IDf) , insere(IDf,P,Pf),encontraCaminho(L_adj,TodasPar,Par_seg,Prox2,Pf,XS))
+	; (getId(Par_ant,IDf) , insere(IDf,P,Pf),encontraCaminho(L_adj,TodasPar,Par_ant,Prox2,Pf,XS)) ).
+	%heur1(P,Par_ant,Par_seg,Prox2,P_Adj_Final),					 % Função heuristica.
+	%getId(P_Adj_Final,IDf),insere(IDf,P,Pf),					 % Obtem e Insere o ID da paragem ,nas listas
+	%print(P_Adj_Final),print('\n'),
+%	encontraCaminho(L_adj,TodasPar,P_Adj_Final,Prox2,Pf,XS).
 
 
 
@@ -233,12 +237,17 @@ pontos_inter(L,Todas,O,D,[X|XS],SOL):-percurso_mais_rapido(O,X),pontos_inter(L,T
 indexOf([],O,D,Carr,C,A,B).
 indexOf([viajar(X1,X2)|XS],O,D,Carr,Conta,A,Conta):- getId(X1,D), getCarr(X1,Carr),Contador is Conta+1,indexOf(XS,O,D,Carr,Contador,A,Conta). 
 indexOf([viajar(X1,X2)|XS],O,D,Carr,Conta,Conta,B):- getId(X1,O), getCarr(X1,Carr),Contador is Conta+1,indexOf(XS,O,D,Carr,Contador,Conta,B).  
+indexOf([viajar(X1,X2)|XS],O,D,Carr,Conta,A,Conta):- getId(X2,D), getCarr(X2,Carr),Contador is Conta+1,indexOf(XS,O,D,Carr,Contador,A,Conta). 
+indexOf([viajar(X1,X2)|XS],O,D,Carr,Conta,Conta,B):- getId(X2,O), getCarr(X2,Carr),Contador is Conta+1,indexOf(XS,O,D,Carr,Contador,Conta,B).  
+
 indexOf([viajar(X1,X2)|XS],O,D,Carr,Conta,A,B):- Contador is Conta+1, indexOf(XS,O,D,Carr,Contador,A,B).
 
 
 
+upOrDown(L,O,D,Carr,A,B):-indexOf(L,O,D,Carr,0,A,B).
+ 
 lol(A,B):-bagof(_,grafo(L1,L),[L|R]),
-		indexOf(L,51,622,1,0,A,B).
+		indexOf(L,183,791,1,0,A,B).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Testes
