@@ -101,21 +101,44 @@ getAdj(L,O,Carr,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1
    	   memberchk(viajar(paragem(O,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2)),L) .
 
 
+getAdj(L,O,Carr,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),paragem(-1,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2))
+	:- memberchk(viajar(paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),paragem(O,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia)),L).
+   	  
+
+getAdj(L,O,Carr,paragem(-1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2))
+	:- memberchk(viajar(paragem(O,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2)),L) .
+
+
+
 
 
 
 % Calcula o vertice mais perto(distancia em linha reta) do destino passando como parametro a as paragens adjacentes nos 2 sentidos, Cuidado que isto pode entrar em ciclo, tem de se gardar todos os vertices visitados. Ex:: A->B->C->B->C....
-heur1(P1,P2,PD,P1):-calDist(viajar(P1,PD),R1) , calDist(viajar(P2,PD),R2) , R1<R2. %print('P_antes:'),print(R1),print('\tP_despois:'),print(R2) .
-heur1(P1,P2,PD,P2):-calDist(viajar(P1,PD),R1) , calDist(viajar(P2,PD),R2) , R1>=R2.% print('P_antes:'),print(R1),print('\tP_despois:'),print(R2) .
 
 
 
+
+heur1(L,P1,P2,PD,P2):- getId(P1,-1).
+heur1(L,P1,P2,PD,P1):- getId(P2,-1).
+
+heur1(L,P1,P2,PD,P1):- getId(P2,Id2),memberchk(Id2,L).
+heur1(L,P1,P2,PD,P2):- getId(P1,Id1),memberchk(Id1,L).
+
+heur1(L,P1,P2,PD,P2):- getId(P1,X),getId(P2,X).
+
+heur1(L,P1,P2,PD,P1):- calDist(viajar(P1,PD),R1) , calDist(viajar(P2,PD),R2) , R1<R2.
+heur1(L,P1,P2,PD,P2):- calDist(viajar(P1,PD),R1) , calDist(viajar(P2,PD),R2) , R1>=R2.
+
+%\+ memberchk(P2,L), \+ memberchk(P1,L),
+%\+ memberchk(P2,L), \+ memberchk(P1,L),
 
 
 
 
 % calcula a distancia entre uma viagem.
 % calDist(_,0).
+calDist(viajar(paragem(-1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1)),R):-R is sqrt(100234102341).
+calDist(viajar(paragem(Id,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(-1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1)),R):-R is sqrt(100234102341).
 calDist(viajar(paragem(Id,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1)),R) :- 
 	R is sqrt(((Lat -Lat1) * (Lat -Lat1)) + ((Long-Long1)*(Long-Long1))).
 
@@ -137,55 +160,138 @@ calParagens([X|XS],Acc,R):- Acc2 is (Acc + 1), calParagens(XS,Acc2,R).
 
 
 
+insere(X,[],[X]).
+insere(X,L,[X|L]).
 
 
 
+teste4(CAminho):- bagof(_,grafo(L1,L),[L|R]),
+findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+encontraCaminho(L,Todas,paragem(366,-106021.37,-96684.5,'Bom','Fechado dos Lados','Yes','Vimeca',1,411,'Avenida Dom Pedro V','Alges, Linda-a-Velha e Cruz Quebrada-Dafundo'),
+				paragem(337,-105713.9,-96309.68,'Bom','Aberto dos Lados','No','Vimeca',11,1251,'Rua Pedro Alvares Cabral','Alges, Linda-a-Velha e Cruz Quebrada-Dafundo'),[366],CAminho),printl(CAminho).
+
+
+
+
+
+teste3(CAminho):- bagof(_,grafo(L1,L),[L|R]),
+findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+encontraCaminho(L,Todas,paragem(251,-104487.69,-96548.01,'Bom','Fechado dos Lados','Yes','Vimeca',1,1279,'Avenida Tomas Ribeiro','Carnaxide e Queijas'),
+				paragem(227,-104412.8,-98632.87,'Bom','Sem Abrigo','No','Vimeca','02,06,13',805,'Rua Ilha de Sao Jorge','Carnaxide e Queijas'),[],CAminho),printl(CAminho).
+
+
+
+
+teste2(CAminho):- bagof(_,grafo(L1,L),[L|R]),
+findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+encontraCaminho(L,Todas,paragem(27,-105587.02,-95875.21,'Bom','Fechado dos Lados','Yes','Vimeca',13,430,'Avenida Carolina Michaelis','Alges, Linda-a-Velha e Cruz Quebrada-Dafundo'),
+				paragem(366,-106021.37,-96684.5,'Bom','Fechado dos Lados','Yes','Vimeca',1,411,'Avenida Dom Pedro V','Alges, Linda-a-Velha e Cruz Quebrada-Dafundo'),[27],CAminho),printl(CAminho).
+
+
+
+teste1(Caminho):- bagof(_,grafo(L1,L),[L|R]),
+findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+encontraCaminho(L,Todas,paragem(859,-105043.39,-96109.56,'Bom','Fechado dos Lados','Yes','Vimeca','02,11,13',1283,'Avenida Vinte e Cinco de Abril de 1974','Alges, Linda-a-Velha e Cruz Quebrada-Dafundo'),
+paragem(488,-106492.31,-96447.01,'Bom','Sem Abrigo','No','Vimeca',11,1292,'Rua Manuel Ferreira','Alges, Linda-a-Velha e Cruz Quebrada-Dafundo'),[859],Caminho),printl(Caminho).
 
 % findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),L),encontraCaminho(L,)
 
+encontraCaminho(_,_,paragem(Id1,_,_,_,_,_,_,_,_,_,_),paragem(Id1,_,_,_,_,_,_,_,_,_,_),_,R). % cheguei ao destino.
 
-encontraCaminho(_,_,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),R).
 
 
-encontraCaminho(L_adj,TodasPar,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),
-				paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),[XS]):-
+encontraCaminho(L_adj,TodasPar, 
+				paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),
+				paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),P,[IDf|XS]):-
+
 	obterCarr(Id1,TodasPar,C_ori),obterCarr(Id2,TodasPar,C_des), % Obtem as carreiras.
-	pri_Comum(C_des,C_ori,NewC), 						     % Existe carreiras em comum.
+	pri_Comum(C_ori,C_des,NewC), 						     % Existe uma carreira em comum.
 	NewC \= nao,
-	print('Mudei para a CARREIRA->'),print(NewC),print('\n'),
-	mudarCarreira(NewC,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),Prox),
-	print(Prox),print('\n'),
-	encontraCaminho(L_adj,TodasPar,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Prox,XS).
+	mudarCarreira(NewC,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),Prox2),
+	getAdj(L_adj,Id1,NewC,Par_ant,Par_seg), 					 % Obtem as paragens adjacentes.
+	heur1(P,Par_ant,Par_seg,Prox2,P_Adj_Final),					 % Função heuristica.
+	getId(P_Adj_Final,IDf),insere(IDf,P,Pf),					 % Obtem e Insere o ID da paragem ,nas listas
+	%print(P_Adj_Final),print('\n'),
+	encontraCaminho(L_adj,TodasPar,P_Adj_Final,Prox2,Pf,XS).
 
 
 
-encontraCaminho(L_adj,TodasPar,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),
-				paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),[getId(Prox)|XS]):-
-	Carr1 \= Carr2,
+
+
+encontraCaminho(L_adj,TodasPar, 
+				paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),
+				paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),P,[IDf|XS]):-
+
 	obterCarr(Id1,TodasPar,C_ori),obterCarr(Id2,TodasPar,C_des), % Obtem as carreiras.
-	pri_Comum(C_des,C_ori,nao), 								 % Não existem carreiras em comum
-	print('Carr-ORi:'),print(C_ori),print('\t CArr-destino:\t'),print(C_des),print('\t ID_Dest:'),print(Id2),print('----'),print(Carr2),print('\n'),
-	getAdj(L_adj,Id2,Carr2,Par_ant,Par_seg), 					 % Obtem as paragens adjacentes.
-	heur1(Par_ant,Par_seg,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Prox),
-	print('\n\t'),print(Prox),
-	encontraCaminho(L_adj,TodasPar,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Prox,XS).
+	pri_Comum(C_ori,C_des,nao),									 % Não existem carreiras em comum
+	toList(C_ori,C_ori1),										 % garante que seja uma lista, pois pode ser um inteiro.
+	map2(P,L_adj,Id1,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),C_ori1,Res),
+	best_Choice(P,Res,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),P_Adj_Final),
+	getId(P_Adj_Final,IDf),insere(IDf,P,Pf),
+	%print(P_Adj_Final),print('\n'),
+	encontraCaminho(L_adj,TodasPar,P_Adj_Final,paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),Pf,XS).
+
+%paragem(44,-104458.52,-94926.22,'Bom','Fechado dos Lados','Yes','Vimeca','01,13,15',1134,'Largo Sete de Junho de 1759','Carnaxide e Queijas').
+%teste1(X):- pp(44,paragem(162,-102962.16,-98672.14,'Bom','Sem Abrigo','No','Vimeca','02,06,13',830,'Estrada Militar','Barcarena'),[13,15,1],X).
+
+%pp(Par_ori,Par_Dest,Carr,P_Adj_Final):-bagof(_,grafo(L1,L),[L|R]),map2([],L,Par_ori,Par_Dest,Carr,Res),best_Choice([],Res,Par_Dest,FINAL).
+
+
+map2(Percorr,L_adj,Par_ori,Par_Dest,[],R). 
+
+map2(Percorr,L_adj,Par_ori,Par_Dest,[X|XS],[Par_seg|FS]):- 
+	getAdj(L_adj,Par_ori,X,Par_ant,Par_seg), 
+	getId(Par_ant,-1),
+	%print(Fin),
+	map2(Percorr,L_adj,Par_ori,Par_Dest,XS,FS).
+
+map2(Percorr,L_adj,Par_ori,Par_Dest,[X|XS],[Par_ant|FS]):- 
+	getAdj(L_adj,Par_ori,X,Par_ant,Par_seg), 
+	getId(Par_seg,-1),
+	%print(Fin),
+	map2(Percorr,L_adj,Par_ori,Par_Dest,XS,FS).
+
+map2(Percorr,L_adj,Par_ori,Par_Dest,[X|XS],[Fin|FS]):- 
+	getAdj(L_adj,Par_ori,X,Par_ant,Par_seg), 
+	heur1(Percorr,Par_ant,Par_seg,Par_Dest,Fin),
+	map2(Percorr,L_adj,Par_ori,Par_Dest,XS,FS).
+
+best_Choice(Percorr,[F1],Par_Dest,F1).
+best_Choice(Percorr,[F1,F2|FS],Par_Dest,Fin1) :-
+	heur1(Percorr,F1,F2,Par_Dest,Fin),
+	best_Choice(Percorr,[Fin|FS],Par_Dest,Fin1).
 
 
 
-encontraCaminho(L_adj,TodasPar,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),
-				paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr1,CodRua2,NomeRua2,Freguesia2),[XS]) :-
-	print('Mesma Carr\n'),
-	getAdj(L_adj,Id2,Carr2,Par_ant,Par_seg), 					 % Obtem as paragens adjacentes.
-	heur1(Par_ant,Par_seg,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Prox),
-	print(Prox),
-	encontraCaminho(L_adj,TodasPar,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Prox,XS).
+
+
+%encontraCaminho(L_adj,TodasPar,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),
+%				paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr2,CodRua2,NomeRua2,Freguesia2),[getId(Prox)|XS]):-
+%	Carr1 \= Carr2,
+%	obterCarr(Id1,TodasPar,C_ori),obterCarr(Id2,TodasPar,C_des), % Obtem as carreiras.
+%	pri_Comum(C_des,C_ori,nao), 								 % Não existem carreiras em comum
+%	print('Carr-ORi:'),print(C_ori),print('\t CArr-destino:\t'),print(C_des),print('\t ID_Dest:'),print(Id2),print('----'),print(Carr2),print('\n'),
+%	getAdj(L_adj,Id2,Carr2,Par_ant,Par_seg), 					 % Obtem as paragens adjacentes.
+%	heur1(Par_ant,Par_seg,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Prox),
+%	print('\n\t'),print(Prox),
+%	encontraCaminho(L_adj,TodasPar,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Prox,XS).
+%
+%
+%
+%encontraCaminho(L_adj,TodasPar,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),
+%				paragem(Id2,Lat2,Long2,Estado2,TipoAbrigo2,AbrigoPub2,Operadora2,Carr1,CodRua2,NomeRua2,Freguesia2),[XS]) :-
+%	print('Mesma Carr\n'),
+%	getAdj(L_adj,Id2,Carr2,Par_ant,Par_seg), 					 % Obtem as paragens adjacentes.
+%	heur1(Par_ant,Par_seg,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Prox),
+%	print(Prox),
+%	encontraCaminho(L_adj,TodasPar,paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),Prox,XS).
 
 
 
 %bagof(_,grafo(L1,L),[L|R]),
 %findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
-%encontraCaminho(L,Todas,paragem(366,-106021.37,-96684.5,'Bom','Fechado dos Lados','Yes','Vimeca',1,411,'Avenida Dom Pedro V','Alges, Linda-a-Velha e Cruz Quebrada-Dafundo'),
-%				paragem(337,-105713.9,-96309.68,'Bom','Aberto dos Lados','No','Vimeca',11,1251,'Rua Pedro Alvares Cabral','Alges, Linda-a-Velha e Cruz Quebrada-Dafundo'),CAminho). 
+%encontraCaminho(L,Todas,paragem(859,-106021.37,-96684.5,'Bom','Fechado dos Lados','Yes','Vimeca',11,411,'Avenida Dom Pedro V','Alges, Linda-a-Velha e Cruz Quebrada-Dafundo'),
+%				paragem(488,-105713.9,-96309.68,'Bom','Aberto dos Lados','No','Vimeca',11,1251,'Rua Pedro Alvares Cabral','Alges, Linda-a-Velha e Cruz Quebrada-Dafundo'),CAminho). 
 
 
 
@@ -224,10 +330,18 @@ getId(paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,Cod
 
 %pri_Comum([1,2,3],[9,4,9,6,7,5,5],P).
 
+toList([],[]).
+toList(X,[X]):- integer(X).
+toList(X,X).
 
 
 
 
+
+
+
+printl([X]):- write(X).
+printl([Y|Tail]):-write(Y),write('\n'),printl(Tail).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Testes
@@ -271,4 +385,4 @@ getId(paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,Cod
 
 
 
-
+%bagof(_,grafo(L1,L),[L|R]),getAdj(L,859,11,Par_ant,Par_seg). 
