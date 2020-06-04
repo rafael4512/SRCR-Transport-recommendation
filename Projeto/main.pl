@@ -35,6 +35,12 @@
 
 % Calcular um trajeto entre dois pontos.
 
+calcula_Percurso(O,D):- bagof(_,grafo(L1,L),[L|R]),
+							findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),
+								    paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+							getParagem(O,Par1),getParagem(D,Par2),
+							encontraCaminho(L,Todas,Par1,Par2,[O],Caminho),
+							write('\nPercurso :\n'),printl([O|Caminho]),write('\n').
 
 
 
@@ -67,12 +73,6 @@ identificar_carr_aux([P|PS]):-findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,Abr
 
 
 % Escolher o percurso mais rápido (usando critério da distância);
-percurso_mais_rapido(O,D):- bagof(_,grafo(L1,L),[L|R]),
-							findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),
-								    paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
-							getParagem(O,Par1),getParagem(D,Par2),
-							encontraCaminho(L,Todas,Par1,Par2,[O],Caminho),
-							write('\nPercurso mais Rapido:\n'),printl(Caminho),write('\n').
 
 
 
@@ -91,6 +91,23 @@ percurso_mais_rapido(O,D):- bagof(_,grafo(L1,L),[L|R]),
 
 
 % Escolher um ou mais pontos intermédios por onde o percurso deverá passar. 
+percurso_inter(O,D,L_inter):-bagof(_,grafo(L1,L),[L|R]),
+							findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),
+	   						paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+							write(O),write('\n'),pontos_inter(L,Todas,O,D,L_inter,RR).
+
+
+
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Testes
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+
+%percurso_inter(251,227,[44,45]).
+%percurso_inter(336,337,[488]). 
+
+
+
 
 
 

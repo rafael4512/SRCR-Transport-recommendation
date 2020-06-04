@@ -214,22 +214,27 @@ printONELine(L):-write('['),printONE(L).
 
 
 
-pontos_inter(L,Todas,O,D,[],SOL):- percurso_mais_rapido(O,D).%getParagem(O,Par1), getParagem(D,Par2), encontraCaminho(L,Todas,Par1,Par2,[O],SOL).
+pontos_inter(L,Todas,O,D,[],SOL):- pontos_inter_aux(O,D).%getParagem(O,Par1), getParagem(D,Par2), encontraCaminho(L,Todas,Par1,Par2,[O],SOL).
 
-pontos_inter(L,Todas,O,D,[X|XS],SOL):-percurso_mais_rapido(O,X),pontos_inter(L,Todas,O,D,XS,SOL).	%getParagem(O,Par1),getParagem(X,Par2),
+pontos_inter(L,Todas,O,D,[X|XS],SOL):-pontos_inter_aux(O,X),write('->Paragem\n'),pontos_inter(L,Todas,X,D,XS,SOL).	%getParagem(O,Par1),getParagem(X,Par2),
 										%encontraCaminho(L,Todas,Par1,Par2,[O],Caminho),
 										%pontos_inter(X,D,XS,CAminho2),
 										%append(Caminho,CAminho2,SOL).
 							
+pontos_inter_aux(O,D):-bagof(_,grafo(L1,L),[L|R]),
+					   findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),
+					   	    paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+					   getParagem(O,Par1),getParagem(D,Par2),
+					   encontraCaminho(L,Todas,Par1,Par2,[O],Caminho),
+					   printl(Caminho).
 
 
 
-
-
-%au(R):-bagof(_,grafo(L1,L),[L|R]),
-%		findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),
-%	   			paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
-%		pontos_inter(L,Todas,251,227,[44,45],R).
+%%Teste dos pontos intermedios.
+au(R):-bagof(_,grafo(L1,L),[L|R]),
+		findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),
+	   			paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+		pontos_inter(L,Todas,251,227,[44,45],R).
 
 
 
@@ -248,6 +253,26 @@ upOrDown(L,O,D,Carr,A,B):-indexOf(L,O,D,Carr,0,A,B).
  
 lol(A,B):-bagof(_,grafo(L1,L),[L|R]),
 		indexOf(L,183,791,1,0,A,B).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Testes
