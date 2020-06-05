@@ -1,6 +1,9 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Funções auxiliares para a criação da baseDeConhecimento e do grafo.
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+
+:- include('str_process.pl').
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 % Listas
@@ -27,8 +30,15 @@ criarBC(Name_Exel,DirDestino,criada_Com_Sucesso) :- csv_read_file(Name_Exel,Data
 								   	close(OS).
 
 mapBC(OS,[],sucesso).
-mapBC(OS,[Y|YS],R):-writeq(OS,Y),write(OS,"."),nl(OS) ,mapBC(OS,YS,R).
+mapBC(OS,[Y1|YS],R):- processaPar(Y1,Y), writeq(OS,Y),write(OS,"."),nl(OS) ,mapBC(OS,YS,R).
 
+processaPar(paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,[Carr1],CodRua1,NomeRua1,Freguesia1)):- integer(Carr1).
+processaPar(paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr1,CodRua1,NomeRua1,Freguesia1),paragem(Id1,Lat1,Long1,Estado1,TipoAbrigo1,AbrigoPub1,Operadora1,Carr2,CodRua1,NomeRua1,Freguesia1)):- atomic_list_concat_(L,',',Carr1),alltoInt(L,Carr2) .
+processaPar(X,X).
+
+
+alltoInt([],[]).
+alltoInt([X|XS],[Y|YS]):- atom_number(X,Y),alltoInt(XS,YS).
 
 %--------------------------------- 
 
