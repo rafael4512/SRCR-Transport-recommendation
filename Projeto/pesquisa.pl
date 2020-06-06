@@ -224,21 +224,23 @@ encontraCaminho2(L_adj,TodasPar,
 
 
 %--------------------------------- 
-todosCaminhos(L_adj,TodasPar,O,D,Res):-obterCarr(O,TodasPar,C_ori),obterCarr(D,TodasPar,C_des),pri_Comum(C_ori,C_des,nao).
-todosCaminhos(L_adj,TodasPar,O,D,R):-getParagem(TodasPar,O,Par1),getParagem(TodasPar,D,Par2),write('AH\n'),encontraCaminho2(L_adj,TodasPar,Par1,Par2,[],Sol),
-									memberchk(-1,Sol),
-									obterCarr(O,TodasPar,C_ori),obterCarr(D,TodasPar,C_des),
-									pri_Comum(C_ori,C_des,NewC),
-									write(C_ori),print('\t'),write(C_des),print('\t<-1\n'),
-									%write('Eliminei a Carr_:'),write(NewC),write('\n'),
-									deleteCarr(NewC,TodasPar,Par1,NewBC),
-									todosCaminhos(L_adj,NewBC,O,D,R).
-todosCaminhos(L_adj,TodasPar,O,D,[Sol|R]):-getParagem(TodasPar,O,Par1),getParagem(TodasPar,D,Par2),encontraCaminho2(L_adj,TodasPar,Par1,Par2,[],Sol),
-											todosCaminhos(L_adj,TodasPar,O,D,R).
-pp(X):-bagof(_,grafo(L1,L),[L|R]),
-		findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
-		todosCaminhos(L,Todas,183,181,X),write('PP->->'),write(X).
 
+
+% todosCaminhos(L_adj,TodasPar,O,D,Res):-obterCarr(O,TodasPar,C_ori),obterCarr(D,TodasPar,C_des),pri_Comum(C_ori,C_des,nao).
+% todosCaminhos(L_adj,TodasPar,O,D,R):-getParagem(TodasPar,O,Par1),getParagem(TodasPar,D,Par2),write('AH\n'),encontraCaminho2(L_adj,TodasPar,Par1,Par2,[],Sol),
+% 									memberchk(-1,Sol),
+% 									obterCarr(O,TodasPar,C_ori),obterCarr(D,TodasPar,C_des),
+% 									pri_Comum(C_ori,C_des,NewC),
+% 									write(C_ori),print('\t'),write(C_des),print('\t<-1\n'),
+% 									%write('Eliminei a Carr_:'),write(NewC),write('\n'),
+% 									deleteCarr(NewC,TodasPar,Par1,NewBC),
+% 									todosCaminhos(L_adj,NewBC,O,D,R).
+% todosCaminhos(L_adj,TodasPar,O,D,[Sol|R]):-getParagem(TodasPar,O,Par1),getParagem(TodasPar,D,Par2),encontraCaminho2(L_adj,TodasPar,Par1,Par2,[],Sol),
+% 											todosCaminhos(L_adj,TodasPar,O,D,R).
+% pp(X):-bagof(_,grafo(L1,L),[L|R]),
+% 		findall(paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),paragem(Id1,Lat,Long,Estado,TipoAbrigo,AbrigoPub,Operadora,Carr,CodRua,NomeRua,Freguesia),Todas),
+% 		todosCaminhos(L,Todas,183,181,X),write('PP->->'),write(X).
+% 
 
 %--------------------------------- 
 
