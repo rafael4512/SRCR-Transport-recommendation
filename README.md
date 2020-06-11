@@ -1,5 +1,5 @@
 # SRCR-Transport-recommendation
-  <h2>Grafos em prolog<\h2>
+  <h2>Grafos em prolog</h2>
   
  <h3> Para criar o grafo e a base de conhecimento necessita de usar o SWI. </h3>
   <ol>
