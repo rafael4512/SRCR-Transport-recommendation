@@ -1,6 +1,6 @@
 # SRCR-Transport-recommendation
   <h2>Grafos em prolog</h2>
-  
+  <p>Pesquisas em grafos, métodos de procura informada com conhecimento imperfeito/perfeito etc.</p>
  <h3> Para criar o grafo e a base de conhecimento necessita de usar o SWI. </h3>
   <ol>
         <li>use_module(library(csv)) .  </li>
